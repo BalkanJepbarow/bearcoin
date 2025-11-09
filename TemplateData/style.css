@@ -1,0 +1,22 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  touch-action: none; /* Предотвращаем скроллинг и зум */
+}
+
+#unity-container {
+  position: fixed; /* Изменено на fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#unity-canvas {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  -webkit-overflow-scrolling: auto; /* Предотвращаем сдвиг контента на iOS */
+}

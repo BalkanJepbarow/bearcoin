@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bear Clicker</title>
+
+    <!-- Ваши стили и скрипты (Telegram, eruda, и т.д.) -->
+    <link rel="stylesheet" href="TemplateData/style.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+
+    <style>
+      /* Сбрасываем отступы и растягиваем html и body */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        touch-action: none;
+      }
+
+      /* Контейнер загрузочного экрана */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000; /* можно убрать или заменить цвет */
+        z-index: 9999;         /* поверх всего */
+      }
+
+      /* Видео, растянутое на весь экран */
+      #loading-screen video {
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        display: block;
+      }
+
+      /* Контейнер Unity – по умолчанию скрыт */
+      #unity-container {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Канвас Unity */
+      #unity-canvas {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        -webkit-overflow-scrolling: auto; /* предотвращаем вылезание контента на iOS */
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Загрузочный экран с MP4-видео -->
+    <div id="loading-screen">
+      <video autoplay muted loop playsinline>
+        <!-- Ваш MP4-файл -->
+        <source src="https://www.bearcoin.pro/static/coin-loader-12.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <!-- Контейнер для Unity -->
+    <div id="unity-container">
+      <canvas id="unity-canvas" width="1080" height="1920"></canvas>
+    </div>
+
+    <!-- Подключаем Unity Loader -->
+    <script src="Build/BearcoinBuild.loader.js"></script>
+    <script>
+      //eruda.init(); // если нужно для отладки
+
+      var unityInstance = null;
+
+      // Функция, вызываемая после успешной инициализации Unity
+      function onUnityLoaded() {
+        // Скрываем загрузочный экран и показываем контейнер с игрой
+        document.getElementById("loading-screen").style.display = "none";
+        document.getElementById("unity-container").style.display = "block";
+        console.log("[Unigram Payment] Unity instance successfully loaded");
+      }
+
+      // Запускаем Unity
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/BearcoinBuild.data.br",
+        frameworkUrl: "Build/BearcoinBuild.framework.js.br",
+        codeUrl: "Build/BearcoinBuild.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Bear Clicker",
+        productVersion: "1.0",
+      })
+        .then((instance) => {
+          unityInstance = instance;
+          onUnityLoaded();
+        })
+        .catch((error) => {
+          console.error("Error loading Unity instance:", error);
+        });
+
+      // Остальной ваш JS-код (работа с клавиатурой, Telegram.WebApp, lockOrientation и т.д.) ниже:
+      
+      var KeyboardManagerJS = {
+        isKeyboardVisible: false,
+        initialHeight: window.innerHeight,
+        cooldown: false,
+        init: function () {
+          this.initialHeight = window.innerHeight;
+          window.addEventListener("resize", this.onResize.bind(this));
+        },
+        onResize: function () {
+          if (this.cooldown) return;
+          var currentHeight = window.innerHeight;
+          var heightDifference = this.initialHeight - currentHeight;
+          var threshold = 150;
+
+          if (heightDifference > threshold && !this.isKeyboardVisible) {
+            this.isKeyboardVisible = true;
+            console.log("KeyboardManagerJS: Клавиатура показана");
+            this.sendMessageToUnity("OnKeyboardShowMessage");
+            this.cooldown = true;
+            setTimeout(() => {
+              this.cooldown = false;
+            }, 500);
+          } else if (heightDifference < threshold && this.isKeyboardVisible) {
+            this.isKeyboardVisible = false;
+            console.log("KeyboardManagerJS: Клавиатура скрыта");
+            this.sendMessageToUnity("OnKeyboardHideMessage");
+            this.cooldown = true;
+            setTimeout(() => {
+              this.cooldown = false;
+            }, 500);
+          }
+        },
+        sendMessageToUnity: function (methodName) {
+          if (unityInstance && unityInstance.SendMessage) {
+            console.log(`[KeyboardManagerJS] Отправка в Unity: ${methodName}`);
+            unityInstance.SendMessage("KeyboardManager", methodName, "");
+          } else if (unityInstance && unityInstance.Module && unityInstance.Module.SendMessage) {
+            unityInstance.Module.SendMessage("KeyboardManager", methodName, "");
+          } else {
+            console.warn("KeyboardManagerJS: Unity instance или SendMessage недоступны");
+          }
+        },
+      };
+
+      document.addEventListener("focusin", () => {
+        document.body.style.position = "fixed";
+      });
+      document.addEventListener("focusout", () => {
+        document.body.style.position = "";
+      });
+
+      window.addEventListener("load", function () {
+        KeyboardManagerJS.init();
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        var isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) {
+          Telegram.WebApp.requestFullscreen();
+        } else {
+          console.log("[Unigram Payment] Fullscreen не применяется – устройство не мобильное");
+        }
+        Telegram.WebApp.lockOrientation();
+        console.log("[Unigram Payment] Telegram web app expanded to full screen");
+      });
+    </script>
+  </body>
+</html>
