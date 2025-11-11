@@ -15,7 +15,7 @@ var config = {
   streamingAssetsUrl: "StreamingAssets",
   companyName: "DefaultCompany",
   productName: "Bear Clicker",
-  productVersion: "2.0"
+  productVersion: "1.0"
 };
 
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))

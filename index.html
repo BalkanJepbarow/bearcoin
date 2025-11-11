@@ -82,7 +82,7 @@
     <!-- Подключаем Unity Loader -->
     <script src="Build/BearcoinBuild.loader.js"></script>
     <script>
-      //eruda.init(); // если нужно для отладки
+      eruda.init(); // если нужно для отладки
 
       var unityInstance = null;
 
@@ -102,7 +102,7 @@
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Bear Clicker",
-        productVersion: "2.0",
+        productVersion: "1.0",
       })
         .then((instance) => {
           unityInstance = instance;
