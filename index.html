@@ -9,11 +9,11 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>
-      // Увеличиваем лимит памяти для WebAssembly
-      window.Module = {
-          TOTAL_MEMORY: 268435456, // 256MB
-          wasmMemory: new WebAssembly.Memory({ initial: 256, maximum: 512 })
-      };
+    // Увеличиваем лимит памяти для WebAssembly
+    window.Module = {
+        TOTAL_MEMORY: 268435456, // 256MB
+        wasmMemory: new WebAssembly.Memory({ initial: 256, maximum: 512 })
+    };
     </script>
     <meta
       name="viewport"
@@ -88,7 +88,7 @@
     <!-- Подключаем Unity Loader -->
     <script src="Build/BearcoinBuild.loader.js"></script>
     <script>
-      //eruda.init(); // если нужно для отладки
+      eruda.init(); // если нужно для отладки
 
       var unityInstance = null;
 
