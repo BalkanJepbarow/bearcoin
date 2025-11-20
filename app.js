@@ -28,7 +28,6 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
   document.getElementsByTagName('head')[0].appendChild(meta);
 }
   
-canvas.style.background = "url('" + buildUrl + "/BearcoinBuild.jpg') center / cover";
 loadingBar.style.display = "block";
   
 var script = document.createElement("script");
