@@ -9,9 +9,9 @@ var progressBarFull = document.querySelector("#unity-progress-bar-full");
 var buildUrl = "Build";
 var loaderUrl = buildUrl + "/BearcoinBuild.loader.js";
 var config = {
-  dataUrl: buildUrl + "/BearcoinBuild.data.br",
-  frameworkUrl: buildUrl + "/BearcoinBuild.framework.js.br",
-  codeUrl: buildUrl + "/BearcoinBuild.wasm.br",
+  dataUrl: buildUrl + "/BearcoinBuild.data.unityweb",
+  frameworkUrl: buildUrl + "/BearcoinBuild.framework.js.unityweb",
+  codeUrl: buildUrl + "/BearcoinBuild.wasm.unityweb",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "DefaultCompany",
   productName: "Bear Clicker",
