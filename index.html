@@ -93,9 +93,8 @@
         document.getElementById("unity-container").style.display = "block";
         console.log("[Unigram Payment] Unity instance successfully loaded");
       }
-
-      // Запускаем Unity
-      createUnityInstance(document.querySelector("#unity-canvas"), {
+      // Default Unity config (Unity replaces ___BuildName___ etc.)
+      const config = {
         dataUrl: "Build/BearcoinBuild.data.br",
         frameworkUrl: "Build/BearcoinBuild.framework.js.br",
         codeUrl: "Build/BearcoinBuild.wasm.br",
@@ -103,7 +102,27 @@
         companyName: "DefaultCompany",
         productName: "Bear Clicker",
         productVersion: "1.0",
-      })
+        devicePixelRatio: window.devicePixelRatio,
+        memoryGrowth: true
+      };
+
+        /* ===========================================================
+           📱 MOBILE FIX: Reduce pixel density to avoid WebGL crashes
+           =========================================================== */
+      if (/(iPhone|iPad|Android)/i.test(navigator.userAgent)) {
+          config.devicePixelRatio = 1;
+      }
+
+        /* ===========================================================
+           🤖 TELEGRAM FIX: Enable memoryGrowth + reduce pixel ratio
+           =========================================================== */
+      if (navigator.userAgent.includes("Telegram")) {
+          config.devicePixelRatio = 1;
+          config.memoryGrowth = true;
+      }  
+
+      // Запускаем Unity
+      createUnityInstance(document.querySelector("#unity-canvas"), config)
         .then((instance) => {
           unityInstance = instance;
           onUnityLoaded();
