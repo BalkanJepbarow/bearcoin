@@ -82,8 +82,11 @@
     <!-- Подключаем Unity Loader -->
     <script src="Build/BearcoinBuild.loader.js"></script>
     <script>
-      //eruda.init(); // если нужно для отладки
-
+      eruda.init(); // если нужно для отладки
+      
+      eruda.get('panel').hide();
+      eruda.get('entry-btn').hide(); 
+      
       var unityInstance = null;
 
       // Функция, вызываемая после успешной инициализации Unity
