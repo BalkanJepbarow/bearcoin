@@ -86,10 +86,8 @@
       
 
       // Hide icon button
-      document.addEventListener("DOMContentLoaded", () => {
-          const icon = document.querySelector(".eruda-entry-btn");
-          if (icon) icon.style.display = "none";
-      }); 
+      eruda.destroy();          // erase UI
+      eruda._isInit = true;   
 
       var unityInstance = null;
 
