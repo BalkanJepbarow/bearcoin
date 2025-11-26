@@ -91,6 +91,10 @@
         // Скрываем загрузочный экран и показываем контейнер с игрой
         document.getElementById("loading-screen").style.display = "none";
         document.getElementById("unity-container").style.display = "block";
+        
+        // if (typeof eruda !== "undefined") {
+        //     eruda.destroy();  // removes debugger
+        // }
         console.log("[Unigram Payment] Unity instance successfully loaded");
       }
 
