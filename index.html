@@ -82,7 +82,7 @@
     <!-- Подключаем Unity Loader -->
     <script src="Build/BearcoinBuild.loader.js"></script>
     <script>
-      eruda.init(); // если нужно для отладки
+      //eruda.init(); // если нужно для отладки
 
       var unityInstance = null;
 
@@ -92,9 +92,9 @@
         document.getElementById("loading-screen").style.display = "none";
         document.getElementById("unity-container").style.display = "block";
         
-        if (typeof eruda !== "undefined") {
-            eruda.destroy();  // removes debugger
-        }
+        // if (typeof eruda !== "undefined") {
+        //     eruda.destroy();  // removes debugger
+        // }
         console.log("[Unigram Payment] Unity instance successfully loaded");
       }
 
