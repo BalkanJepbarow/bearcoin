@@ -95,7 +95,7 @@
       }
 
       // Запускаем Unity
-      //setTimeout(() => {
+      setTimeout(() => {
         createUnityInstance(document.querySelector("#unity-canvas"), {
           dataUrl: "Build/BearcoinBuild.data.br",
           frameworkUrl: "Build/BearcoinBuild.framework.js.br",
@@ -112,7 +112,7 @@
           .catch((error) => {
             console.error("Error loading Unity instance:", error);
           });
-      //}, 150);
+      }, 200);
 
       // Остальной ваш JS-код (работа с клавиатурой, Telegram.WebApp, lockOrientation и т.д.) ниже:
       
