@@ -7,11 +7,11 @@ var loadingBar = document.querySelector("#unity-loading-bar");
 var progressBarFull = document.querySelector("#unity-progress-bar-full");
 
 var buildUrl = "Build";
-var loaderUrl = buildUrl + "/BearcoinBuild.loader.js";
+var loaderUrl = buildUrl + "/Build.loader.js";
 var config = {
-  dataUrl: buildUrl + "/BearcoinBuild.data.br",
-  frameworkUrl: buildUrl + "/BearcoinBuild.framework.js.br",
-  codeUrl: buildUrl + "/BearcoinBuild.wasm.br",
+  dataUrl: buildUrl + "/Build.data.br",
+  frameworkUrl: buildUrl + "/Build.framework.js.br",
+  codeUrl: buildUrl + "/Build.wasm.br",
   streamingAssetsUrl: "StreamingAssets",
   companyName: "DefaultCompany",
   productName: "Bear Clicker",
@@ -28,7 +28,7 @@ if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))
   document.getElementsByTagName('head')[0].appendChild(meta);
 }
   
-canvas.style.background = "url('" + buildUrl + "/BearcoinBuild.jpg') center / cover";
+canvas.style.background = "url('" + buildUrl + "/Build.jpg') center / cover";
 loadingBar.style.display = "block";
   
 var script = document.createElement("script");
